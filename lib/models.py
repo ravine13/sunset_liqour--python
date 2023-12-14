@@ -90,9 +90,28 @@ def view_drinks():
         click.echo(click.style(f"{brand.name} - ${brand.price}", fg='green'))
 
 @click.command()
+
+def search_brands():
+    search_term = click.prompt(click.style("Enter a search term", fg='blue'), type=str)
+    matching_brands = session.query(Brand).filter(Brand.name.contains(search_term)).all()
+def search_all():
+    search_term = click.prompt(click.style("Enter a search term", fg='blue'), type=str)
+    matching_customers = session.query(Customer).filter(Customer.name.contains(search_term)).all()
+
+    for customer in matching_customers:
+        click.echo(click.style(f"Customer Name: {customer.name}, Email: {customer.email}", fg='green'))
+    matching_brands = session.query(Brand).filter(Brand.name.contains(search_term)).all()
+    for brand in matching_brands:
+        click.echo(click.style(f"Brand: {brand.name}, Price: {brand.price}, Category: {brand.category}", fg='green'))
+
+    matching_companies = session.query(Company).filter(Company.name.contains(search_term)).all()
+    for company in matching_companies:
+        click.echo(click.style(f"Company Name: {company.name}, Location: {company.location}", fg='green'))
+
+@click.command()
 def main_menu():
     while True:
-        click.echo("Please choose an option:")
+        click.echo("Welcome to sunset liqour store:")
         click.echo("1. Add customer details")
         click.echo("2. Add brand details")
         click.echo("3. Add company details")
@@ -102,7 +121,9 @@ def main_menu():
         click.echo("7. View all comments")
         click.echo("8. View all ratings")
         click.echo("9. View all companies")
-        click.echo("10. Exit")
+        click.echo("10. Search brands")
+        click.echo("11. Search all")  # New option
+        click.echo("12. Exit")  # Updated exit option
 
         choice = click.prompt("Your choice", type=int)
 
@@ -125,11 +146,16 @@ def main_menu():
         elif choice == 9:
             view_all_companies()
         elif choice == 10:
+            search_brands()
+        elif choice == 11:
+            search_all()  
+        elif choice == 12:
             break  
         else:
-            click.echo("Invalid choice. Please choose a number between 1 and 10.")
+            click.echo("Invalid choice. Please choose a number between 1 and 12.")
 
 if __name__ == '__main__':
     main_menu()
+
 
    
