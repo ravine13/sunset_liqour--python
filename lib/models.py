@@ -1,5 +1,9 @@
 import click
 from Main import session, Customer, Company, Brand,Rating,Comment
+from view_brands import view_all_drinks
+from view_all_comments import view_all_comments
+from view_all_ratings import view_all_ratings
+from view_all_companies import view_all_companies
 
 
 @click.command()
@@ -85,16 +89,47 @@ def view_drinks():
     for brand in brands:
         click.echo(click.style(f"{brand.name} - ${brand.price}", fg='green'))
 
+@click.command()
+def main_menu():
+    while True:
+        click.echo("Please choose an option:")
+        click.echo("1. Add customer details")
+        click.echo("2. Add brand details")
+        click.echo("3. Add company details")
+        click.echo("4. Add a comment")
+        click.echo("5. Add a rating")
+        click.echo("6. View all drinks")
+        click.echo("7. View all comments")
+        click.echo("8. View all ratings")
+        click.echo("9. View all companies")
+        click.echo("10. Exit")
+
+        choice = click.prompt("Your choice", type=int)
+
+        if choice == 1:
+            customer_input()
+        elif choice == 2:
+            brand_input()
+        elif choice == 3:
+            company_input()
+        elif choice == 4:
+            add_comment()
+        elif choice == 5:
+            add_rating()
+        elif choice == 6:
+            view_all_drinks()
+        elif choice == 7:
+            view_all_comments()
+        elif choice == 8:
+            view_all_ratings()
+        elif choice == 9:
+            view_all_companies()
+        elif choice == 10:
+            break  
+        else:
+            click.echo("Invalid choice. Please choose a number between 1 and 10.")
 
 if __name__ == '__main__':
-    commands = {
-        "customer_input": customer_input,
-        "brand_input": brand_input,
-        "company_input": company_input,
-        "add_comment": add_comment,
-        "add_rating": add_rating,
-    }
-    cli = click.Group(commands=commands)
-    cli()
+    main_menu()
 
    
