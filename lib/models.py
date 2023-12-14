@@ -9,8 +9,6 @@ def customer_input():
     email = click.prompt(click.style("Email", fg='blue'), type=str)
     address = click.prompt(click.style("Address", fg='blue'), type=str)
     loyalty_points = click.prompt(click.style("Loyalty Points", fg='blue'), type=int)
-    brand_id = click.prompt(click.style("Brand ID", fg='blue'), type=int)
-
     discount_percentage = min(5 + (loyalty_points // 100) * 5, 20)
     discount_message = click.style(f"You get a {discount_percentage}% discount on your purchase!", fg='green')
 
@@ -18,10 +16,11 @@ def customer_input():
         click.echo(click.style(f"Hello {name}, your order has been confirmed and it will be delivered to {address}.", fg='green'))
         click.echo(discount_message)
         click.echo(click.style("Thank you for choosing us. Your satisfaction is our priority.", fg='green'))
-        
-        new_customer = Customer(name=name, age=age, email=email, address=address, loyalty_points=loyalty_points, brand_id=brand_id)
+
+        new_customer = Customer(name=name, age=age, email=email, address=address, loyalty_points=loyalty_points)
         session.add(new_customer)
         session.commit()
+        click.echo("Customer details added to the database.")
     else:
         click.echo(click.style("Sorry, we cannot process your order.", fg='red'))
         click.echo(click.style("Alcohol is for persons above the age of 18.", fg='red'))
@@ -32,12 +31,16 @@ def brand_input():
     brand_name = click.prompt(click.style("Brand Name", fg='blue'), type=str)
     company_id = click.prompt(click.style("Company ID", fg='blue'), type=int)
     category = click.prompt(click.style("Category", fg='blue'), type=str)
+    price = click.prompt(click.style("Price", fg='blue'), type=float)
+    customer_id = click.prompt(click.style("Customer ID", fg='blue'), type=int)
 
-    new_brand = Brand(name=brand_name, company_id=company_id, category=category)
+    new_brand = Brand(name=brand_name, company_id=company_id, category=category, price=price, customer_id=customer_id)
+    
     session.add(new_brand)
     session.commit()
 
     click.echo(click.style(f"Brand '{brand_name}' has been added to the database.", fg='green'))
+
 
 
 
@@ -58,17 +61,20 @@ def company_input():
 @click.command()
 def add_comment():
     brand_id = click.prompt(click.style("Brand ID", fg='blue'), type=int)
+    customer_id = click.prompt(click.style("Customer ID", fg='blue'), type=int)
     comment_text = click.prompt(click.style("Comment", fg='blue'), type=str)
-    new_comment = Comment(brand_id=brand_id, text=comment_text)
+    new_comment = Comment(brand_id=brand_id, customer_id=customer_id, text=comment_text)
     session.add(new_comment)
     session.commit()
     click.echo(click.style(f"Your comment has been added.", fg='green'))
 
+
 @click.command()
 def add_rating():
     brand_id = click.prompt(click.style("Brand ID", fg='blue'), type=int)
+    customer_id = click.prompt(click.style("Customer ID", fg='blue'), type=int)
     rating_score = click.prompt(click.style("Rating (1-5)", fg='blue'), type=int)
-    new_rating = Rating(brand_id=brand_id, score=rating_score)
+    new_rating = Rating(brand_id=brand_id, customer_id=customer_id, score=rating_score)
     session.add(new_rating)
     session.commit()
     click.echo(click.style(f"Your rating has been added.", fg='green'))
@@ -87,7 +93,6 @@ if __name__ == '__main__':
         "company_input": company_input,
         "add_comment": add_comment,
         "add_rating": add_rating,
-        "view_drinks": view_drinks
     }
     cli = click.Group(commands=commands)
     cli()
