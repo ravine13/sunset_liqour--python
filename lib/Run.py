@@ -1,7 +1,7 @@
 import click
 from sqlalchemy import and_
 from Main import session, Customer, Brand, Rating, Comment
-from sqlalchemy import func  # Make sure to import func
+from sqlalchemy import func  
 
 @click.command()
 def find_customer():
