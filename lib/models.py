@@ -14,12 +14,11 @@ def customer_input():
     address = click.prompt(click.style("Address", fg='blue'), type=str)
     loyalty_points = click.prompt(click.style("Loyalty Points", fg='blue'), type=int)
     discount_percentage = min(5 + (loyalty_points // 100) * 5, 20)
-    discount_message = click.style(f"You get a {discount_percentage}% discount on your purchase!", fg='green')
+    discount_message = click.style(f"You will get a {discount_percentage}% discount on your next purchase!", fg='green')
 
     if age >= 18:
-        click.echo(click.style(f"Hello {name}, your order has been confirmed and it will be delivered to {address}.", fg='green'))
+        click.echo(click.style(f"Hello {name}, thank you for choosing us. Your satisfaction is our priority.", fg='green'))
         click.echo(discount_message)
-        click.echo(click.style("Thank you for choosing us. Your satisfaction is our priority.", fg='green'))
 
         new_customer = Customer(name=name, age=age, email=email, address=address, loyalty_points=loyalty_points)
         session.add(new_customer)
@@ -28,6 +27,7 @@ def customer_input():
     else:
         click.echo(click.style("Sorry, we cannot process your order.", fg='red'))
         click.echo(click.style("Alcohol is for persons above the age of 18.", fg='red'))
+
 
 
 @click.command()
@@ -122,8 +122,8 @@ def main_menu():
         click.echo("8. View all ratings")
         click.echo("9. View all companies")
         click.echo("10. Search brands")
-        click.echo("11. Search all")  # New option
-        click.echo("12. Exit")  # Updated exit option
+        click.echo("11. Search all") 
+        click.echo("12. Exit")  
 
         choice = click.prompt("Your choice", type=int)
 
