@@ -1,14 +1,14 @@
 from models import session,Rating,Brand,Comment,Company,Customer
-import click
+# import click
 from sqlalchemy import or_
 
-# hello = session.query(Rating).filter_by(brand_id=1).all()
+hello = session.query(Rating).filter_by(brand_id=1).all()
 
-# for rating in hello:
-#         brand = session.query(Brand).filter(Brand.id == rating.brand_id).first()
-#         if brand:
-#             print(f"Chosen Drink: {brand.name}")
-#             print(f"Rating: {rating.score}")
+for rating in hello:
+        brand = session.query(Brand).filter(Brand.id == rating.brand_id).first()
+        if brand:
+            print(f"Chosen Drink: {brand.name}")
+            print(f"Rating: {rating.score}")
 
 
 specific_brand_comments = session.query(Comment).filter_by(brand_id=1).all()
