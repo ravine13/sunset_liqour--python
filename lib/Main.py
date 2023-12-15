@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine, DECIMAL
-from sqlalchemy.orm import relationship,sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, create_engine
+from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 
 Base = declarative_base()
 
@@ -12,8 +11,11 @@ class Customer(Base):
     email = Column(String(100))
     address = Column(String(255))
     loyalty_points = Column(Integer)
-    brand_id = Column(Integer, ForeignKey('brands.id'))
-    brand = relationship("Brand", backref="customers")  
+    ratings = relationship("Rating", backref="rating_customer")
+    comments = relationship("Comment", backref="comment_customer")
+    brands = relationship("Brand", back_populates="customer")
+
+    
 
 
 class Company(Base):
@@ -23,20 +25,21 @@ class Company(Base):
     location = Column(String(100))
     established_year = Column(Integer)
     revenue = Column(DECIMAL(15, 2))
+    brands = relationship("Brand", backref="company")
 
 class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
-    brand_id = Column(Integer, ForeignKey('brands.id'))
+    customer_id = Column(Integer, ForeignKey('customers.id'))
     text = Column(String(255))
-    brand = relationship("Brand", backref="comments")
+    brand_id = Column(Integer, ForeignKey('brands.id'))  
 
 class Rating(Base):
     __tablename__ = 'ratings'
     id = Column(Integer, primary_key=True)
-    brand_id = Column(Integer, ForeignKey('brands.id'))
+    customer_id = Column(Integer, ForeignKey('customers.id'))
     score = Column(Integer)
-    brand = relationship("Brand", backref="ratings")
+    brand_id = Column(Integer, ForeignKey('brands.id'))  
 
 
 class Brand(Base):
@@ -45,12 +48,13 @@ class Brand(Base):
     name = Column(String(100))
     company_id = Column(Integer, ForeignKey('companies.id'))
     category = Column(String(50))
-    price = Column(DECIMAL(10, 2)) 
-    company = relationship("Company", backref="brands")
-   
+    price = Column(DECIMAL(10, 2))
+    customer_id = Column(Integer, ForeignKey('customers.id'))
+    customer = relationship("Customer", back_populates="brands")
+    comments = relationship("Comment", backref="brand")
+    ratings = relationship("Rating", backref="brand")
 
-
-engine = create_engine('sqlite:///sunset_liqour.db')
+engine = create_engine('sqlite:///sunset_liqours.db')
 Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
