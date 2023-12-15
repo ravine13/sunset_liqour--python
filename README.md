@@ -1,5 +1,68 @@
 # sunset_liqour--python
 
+
+# Overview:
+
+This project is a command-line interface (CLI) application developed for Sunset Liquor Store. It interacts with a database using SQLAlchemy for CRUD (Create, Read, Update, Delete) operations on Customer, Brand, Company, Comment, and Rating entities.
+
+# Features:
+Adding Customer Details (customer_input()):
+
+Collects information (name, age, email, address, loyalty points) to create a new customer entry.
+Calculates a discount percentage based on loyalty points and displays a discount message.
+
+# Adding Brand Details (brand_input()):
+
+Gathers brand information (name, company ID, category, price, customer ID) to create a new brand entry.
+
+# Adding Company Details (company_input()):
+
+Collects company data (name, location, established year, revenue) to add a new company entry.
+
+# Adding a Comment (add_comment()):
+
+Allows a user to add a comment associated with a specific brand and customer.
+
+# Adding a Rating (add_rating()):
+
+Permits users to add a rating for a particular brand and customer.
+
+# Viewing All Drinks (view_drinks()):
+
+Displays all available drinks (brands) with their respective prices.
+
+# Viewing All Comments (view_all_comments()):
+
+Retrieves and displays all comments stored in the database.
+
+# Viewing All Ratings (view_all_ratings()):
+
+Retrieves and displays all ratings stored in the database.
+
+# Viewing All Companies (view_all_companies()):
+
+Displays all registered companies along with their details.
+
+# Searching Brands (search_brands()):
+
+Searches for brands by name based on user-provided search terms.
+
+# Searching All Entities (search_all()):
+
+Searches for customers, brands, and companies based on a provided search term.
+
+# Main Menu (main_menu()):
+
+Presents a menu with options to execute various functionalities.
+How to Run:
+Ensure Python and required libraries are installed.
+Run the application by executing python your_file_name.py.
+Follow the menu prompts to interact with different functionalities.
+Libraries Used:
+Click: Used for creating a command-line interface.
+SQLAlchemy: Handles the ORM (Object-Relational Mapping) for database interactions.
+
+
 # Customers:
 •	Get all customers: session.query(Customer).all()
 •	Get specific customer by name: session.query(Customer).filter_by(name="John Doe").first()
