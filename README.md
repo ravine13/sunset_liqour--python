@@ -1,5 +1,9 @@
 # sunset_liqour--python
 
+# python version
+
+kindly change python version in the pipfile from 3.12 to your python version
+run pipenv install to install all dependancies 
 
 # Overview:
 
