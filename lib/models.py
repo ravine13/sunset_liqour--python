@@ -1,4 +1,5 @@
 import click
+from decimal import Decimal
 from Main import session, Customer, Company, Brand,Rating,Comment
 from view_brands import view_all_drinks
 from view_all_comments import view_all_comments
@@ -107,6 +108,10 @@ def search_all():
     matching_companies = session.query(Company).filter(Company.name.contains(search_term)).all()
     for company in matching_companies:
         click.echo(click.style(f"Company Name: {company.name}, Location: {company.location}", fg='green'))
+    for brand in matching_brands:
+        price = Decimal(brand.price) 
+        click.echo(click.style(f"Brand: {brand.name}, Price: {price}, Category: {brand.category}", fg='green'))
+
 
 @click.command()
 def main_menu():

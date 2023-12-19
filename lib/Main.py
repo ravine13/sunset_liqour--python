@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, create_engine
+from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 
 Base = declarative_base()
@@ -16,15 +16,14 @@ class Customer(Base):
     brands = relationship("Brand", back_populates="customer")
 
     
-
-
 class Company(Base):
     __tablename__ = 'companies'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     location = Column(String(100))
     established_year = Column(Integer)
-    revenue = Column(DECIMAL(15, 2))
+    revenue = Column(String(15))  # Storing revenue as a string
+    
     brands = relationship("Brand", backref="company")
 
 class Comment(Base):
@@ -41,14 +40,13 @@ class Rating(Base):
     score = Column(Integer)
     brand_id = Column(Integer, ForeignKey('brands.id'))  
 
-
 class Brand(Base):
     __tablename__ = 'brands'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     company_id = Column(Integer, ForeignKey('companies.id'))
     category = Column(String(50))
-    price = Column(DECIMAL(10, 2))
+    price = Column(String(10))  # Storing price as a string
     customer_id = Column(Integer, ForeignKey('customers.id'))
     customer = relationship("Customer", back_populates="brands")
     comments = relationship("Comment", backref="brand")
